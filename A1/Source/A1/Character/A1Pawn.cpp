@@ -4,6 +4,8 @@
 #include "Character/A1Pawn.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values
 AA1Pawn::AA1Pawn()
@@ -25,6 +27,14 @@ AA1Pawn::AA1Pawn()
 	if (MeshAsset.Succeeded()) {
 		Mesh->SetSkeletalMesh(MeshAsset.Object);
 	}
+
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArm->SetupAttachment(GetRootComponent());
+	SpringArm->TargetArmLength = 700.f;
+	SpringArm->SetRelativeRotation(FRotator(-30.f, 0.f, 0.f));
+
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	Camera->SetupAttachment(SpringArm);
 }
 
 // Called when the game starts or when spawned
